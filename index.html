@@ -13,6 +13,10 @@
     <input type="text" id="receiverIdInput" placeholder="Enter receiver's Peer ID">
     <button onclick="connect()">Connect</button>
 
+    <b><p>STATUS:</b> 
+        <span id="status-display">Not Connected</span>
+    </p> 
+
     <h2>Data to Send</h2>
     <input type="text" id="dataInput" placeholder="Enter data to send">
     <button onclick="sendData()">Send Data</button>
@@ -36,6 +40,7 @@
             conn = peer.connect(receiverId);
             conn.on('open', () => {
                 console.log('Connection established');
+                document.getElementById('status-display').innerHTML = "Connected";
             });
         }
 
@@ -44,7 +49,7 @@
 
             if (conn && conn.open) {
                 conn.send(data);
-                console.log('Data sent');
+                alert('Data sent');
             } else {
                 alert('Connection not established. Please connect to the receiver first.');
             }
