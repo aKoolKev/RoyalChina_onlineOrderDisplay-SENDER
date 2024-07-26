@@ -3,6 +3,9 @@
 <head>
     <title>Sender</title>
     <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+
+    <!-- WebRTC adapter.js library to handle browser differences -->
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 </head>
 <body>
     <h1>Sender Page</h1>
@@ -24,16 +27,30 @@
 
 
     <script>
+        // Test WebRTC Support
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            // WebRTC is supported
+            console.log('WebRTC is supported');
         } else {
-            // WebRTC is not supported
-            alert('WebRTC is not supported in this browser.');
+            console.log('WebRTC is not supported');
         }
 
        
 
-        const peer = new Peer();
+        const peer = new Peer({
+            key: 'your-peerjs-key',
+            debug: 3,
+            config: {
+                'iceServers': [
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    {
+                        urls: 'turn:your-turn-server',
+                        username: 'user',
+                        credential: 'pass'
+                    }
+                ]
+            }
+        });
+
 
         peer.on('error', err => {
             console.error('PeerJS error:', err);
