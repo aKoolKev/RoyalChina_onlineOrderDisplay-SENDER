@@ -31,7 +31,18 @@
             alert('WebRTC is not supported in this browser.');
         }
 
+       
+
         const peer = new Peer();
+
+        peer.on('error', err => {
+            console.error('PeerJS error:', err);
+            if (err.type === 'browser-incompatible') {
+                alert('Your browser does not support WebRTC. Please use a supported browser.');
+            } else {
+                alert('An error occurred: ' + err.message);
+            }
+        });
 
         let conn;
 
