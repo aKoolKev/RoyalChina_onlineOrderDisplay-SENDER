@@ -24,22 +24,14 @@
 
 
     <script>
-        //const peer = new Peer();
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            // WebRTC is supported
+        } else {
+            // WebRTC is not supported
+            alert('WebRTC is not supported in this browser.');
+        }
 
-        const peer = new Peer({
-    key: 'your-peerjs-key',
-    debug: 3,
-    config: {
-        'iceServers': [
-            { url: 'stun:stun.l.google.com:19302' },
-            {
-                url: 'turn:your-turn-server',
-                username: 'user',
-                credential: 'pass'
-            }
-        ]
-    }
-});
+        const peer = new Peer();
 
         let conn;
 
