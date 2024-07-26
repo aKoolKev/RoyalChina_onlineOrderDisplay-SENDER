@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sender</title>
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+</head>
+<body>
+    <h1>Sender Page</h1>
+
+    <p>Sender Peer ID: <span id="peer-id"></span></p>
+
+    <h2>Connect to Receiver</h2>
+    <input type="text" id="receiverIdInput" placeholder="Enter receiver's Peer ID">
+    <button onclick="connect()">Connect</button>
+
+    <h2>Data to Send</h2>
+    <input type="text" id="dataInput" placeholder="Enter data to send">
+    <button onclick="sendData()">Send Data</button>
+
+
+
+    <script>
+        const peer = new Peer();
+
+        let conn;
+
+        //getting sender id
+        peer.on('open', (id) => {
+            document.getElementById('peer-id').innerText = id;
+        });
+
+
+        function connect() {
+            //getting the receiver id that was provided by user
+            const receiverId = document.getElementById('receiverIdInput').value;
+            conn = peer.connect(receiverId);
+            conn.on('open', () => {
+                console.log('Connection established');
+            });
+        }
+
+        function sendData() {
+            const data = document.getElementById('dataInput').value;
+
+            if (conn && conn.open) {
+                conn.send(data);
+                console.log('Data sent');
+            } else {
+                alert('Connection not established. Please connect to the receiver first.');
+            }
+        }
+    </script>
+</body>
+</html>
